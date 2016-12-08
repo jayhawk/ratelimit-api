@@ -1,0 +1,24 @@
+sbt
+sbt-dist
+sbt.bat
+.cache-main
+.cache-tests
+.classpath
+.project
+.settings/
+# Ignore Play! working directory #
+bin/
+/db
+.eclipse
+/lib/
+/logs/
+/modules
+/project/project/target
+/project/target
+/target
+tmp/
+test-result
+server.pid
+*.eml
+/dist/
+.cache
