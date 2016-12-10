@@ -26,14 +26,8 @@ class APITest extends PlaySpec with OneAppPerTest {
   }
 
   "Find Hotels action" should {
-    "returns 200 with valid request" in {
+    "returns 200 with valid API key" in {
       route(app, FakeRequest(GET, "/api/hotels?key=apikey1&cityId=Bangkok&sort=desc")).map(status(_)) mustBe Some(OK)
-    }
-    "returns 403 with invalid key" in {
-      route(app, FakeRequest(GET, "/api/hotels?key=apikey3&cityId=Bangkok&sort=desc")).map(status(_)) mustBe Some(FORBIDDEN)
-    }
-    "returns 404 with wrong city ID" in {
-      route(app, FakeRequest(GET, "/api/hotels?key=apikey2&cityId=Bangkod&sort=desc")).map(status(_)) mustBe Some(NOT_FOUND)
     }
     "returns 429 with multiple requests" in {
       route(app, FakeRequest(GET, "/api/hotels?key=apikey1&cityId=Bangkod&sort=desc")).map(status(_)) mustBe Some(TOO_MANY_REQUESTS)
@@ -44,5 +38,12 @@ class APITest extends PlaySpec with OneAppPerTest {
       Thread.sleep(1000 * 15)
       route(app, FakeRequest(GET, "/api/hotels?key=apikey1&cityId=Bangkok&sort=desc")).map(status(_)) mustBe Some(OK)
     }
+    "returns 403 with invalid API key" in {
+      route(app, FakeRequest(GET, "/api/hotels?key=apikey3&cityId=Bangkok&sort=desc")).map(status(_)) mustBe Some(FORBIDDEN)
+    }
+    "returns 404 with wrong city ID" in {
+      route(app, FakeRequest(GET, "/api/hotels?key=apikey2&cityId=Bangkod&sort=desc")).map(status(_)) mustBe Some(NOT_FOUND)
+    }
+
   }
 }

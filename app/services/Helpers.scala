@@ -19,13 +19,13 @@ import play.api.Play
 object Configuration {
   private val underlyingConfig = Play.current.configuration.underlying
   val globalRate = try {
-    underlyingConfig.getDuration("api.global.rate", TimeUnit.SECONDS).toInt
+    underlyingConfig.getDuration("api.global.rate", TimeUnit.SECONDS).toInt //Getting time in seconds
   } catch {
     case cee: ConfigException.Missing => 10 //If config is missing, use 10 seconds
     case e: Exception => throw e
   }
   val suspendedTime = try {
-    underlyingConfig.getDuration("api.suspendedTime", TimeUnit.SECONDS).toInt
+    underlyingConfig.getDuration("api.suspendedTime", TimeUnit.SECONDS).toInt //Getting time in seconds
   } catch {
     case cee: ConfigException.Missing => 5 * 60 //If config is missing, use 5 minutes
     case e: Exception => throw e
