@@ -34,6 +34,7 @@ object Configuration {
 
 /**
  * Keystore with TrieMap to store API keys.
+ * If you want to add more keys, add it here.
  */
 object KeyStore {
   private var values: TrieMap[String, APIKey] = TrieMap("apikey1" -> APIKey("apikey1", rate = 10), "apikey2" -> APIKey("apikey2"))
@@ -47,11 +48,11 @@ object KeyStore {
  * @param key API key
  * @param lastAccessOpt API key last access time
  * @param suspendedTimeOpt Time when API key got suspended
- * @param rate individual rate limit of API key. Default value is global rate limit
+ * @param rate individual time-based rate limit of API key. Default value is global rate limit
  */
 
 case class APIKey(key: String, lastAccessOpt: Option[DateTime] = None, suspendedTimeOpt: Option[DateTime] = None, rate: Int = Configuration.globalRate) {
-
+  
   /**
    * To check if API key is suspended by checking @param suspendedTimeOpt
    */
@@ -71,7 +72,7 @@ case class APIKey(key: String, lastAccessOpt: Option[DateTime] = None, suspended
         Seconds.secondsBetween(lastAccess, DateTime.now()).isGreaterThan(Seconds.seconds(rate)))
   }
   /**
-   * To timestamp APIkey. This replace existing @param lastAccessOpt with current date time
+   * To time-stamp APIkey. This replace existing @param lastAccessOpt with current date time
    */
   def timeStamped: APIKey = APIKey(key, lastAccessOpt = Option(DateTime.now()), rate = this.rate)
 
@@ -93,6 +94,7 @@ case class CSVData(city: String, hotelId: Double, room: String, price: Double)
 
 /**
  * Helper to extract data from CSV file
+ * This is a simple extractor without any error checking or exception handling.
  */
 object CSVExtractor {
   def extract(filePath: String): Seq[CSVData] = {

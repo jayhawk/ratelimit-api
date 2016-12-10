@@ -1,7 +1,7 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
-#Get hotel by ID
+#Get hotels by ID
 GET   /api/hotels     controllers.APIController.findHotels(key: String, cityId: String, sort: Option[String])
 
 # Map static resources from the /public folder to the /assets URL path
