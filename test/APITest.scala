@@ -32,10 +32,12 @@ class APITest extends PlaySpec with OneAppPerTest {
     "returns 429 with multiple requests" in {
       route(app, FakeRequest(GET, "/api/hotels?key=apikey1&cityId=Bangkod&sort=desc")).map(status(_)) mustBe Some(TOO_MANY_REQUESTS)
     }
-    "returns 200 after suspension" in {
+    "returns 200 after 20 seconds suspension" in {
       Thread.sleep(1000 * 5)
+      //Checking after 5 seconds
       route(app, FakeRequest(GET, "/api/hotels?key=apikey1&cityId=Bangkok&sort=desc")).map(status(_)) mustBe Some(TOO_MANY_REQUESTS)
       Thread.sleep(1000 * 15)
+      //Checking after 20 seconds
       route(app, FakeRequest(GET, "/api/hotels?key=apikey1&cityId=Bangkok&sort=desc")).map(status(_)) mustBe Some(OK)
     }
     "returns 403 with invalid API key" in {
@@ -44,6 +46,5 @@ class APITest extends PlaySpec with OneAppPerTest {
     "returns 404 with wrong city ID" in {
       route(app, FakeRequest(GET, "/api/hotels?key=apikey2&cityId=Bangkod&sort=desc")).map(status(_)) mustBe Some(NOT_FOUND)
     }
-
   }
 }

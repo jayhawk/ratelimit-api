@@ -34,6 +34,8 @@ object Configuration {
 
 /**
  * Keystore with TrieMap to store API keys.
+ * apikey1 with 10s rate limit
+ * apikey2 using global rate limit which is currently set to 5s by default
  * If you want to add more keys, add it here.
  */
 object KeyStore {
